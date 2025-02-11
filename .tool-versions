@@ -1,0 +1,11 @@
+# erlang OTP-24.2 22.3.1
+# elixir v1.9.1-otp-22
+
+# Install dependencies and Erlang asdf plugin
+# See https://github.com/asdf-vm/asdf-erlang before-asdf-install
+erlang 25.2.3
+
+# Install dependencies and Elixir asdf plugin 
+# See https://github.com/asdf-vm/asdf-elixir
+# NOTE on depends on unzip
+elixir v1.14.3-otp-25
