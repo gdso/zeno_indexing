@@ -31,4 +31,4 @@ backend server, written in Elixir.
 If you'd like to add a language, feel free to suggest a pull request in a 
 new folder. My hope is for the test suite to help maintain compatiblity.
 
-The test cases are generated in Elixir script and stored in [`./test_cases.json`](./test_cases.json)
+The test cases are generated in an Elixir script (see [./elixir/scripts/README.md](./elixir/scripts/README.md)) and stored in [`./test_cases.json`](./test_cases.json)

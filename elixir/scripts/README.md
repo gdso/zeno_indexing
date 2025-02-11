@@ -4,7 +4,8 @@
 
 The `reformat_test_cases.exs`  is a script that converts test cases
 Greenspan wrote in his original code samples and reformats them into a 
-JSON file that multiple languages can load and test against. 
+JSON file (yes, I too am not a fan of JSON, but this is the world we live in)
+that multiple languages can load and test against. 
 
 ### Running the script
 
