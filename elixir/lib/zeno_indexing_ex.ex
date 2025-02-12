@@ -1,5 +1,5 @@
 defmodule ZenoIndexingEx do
-  # @dialyzer [{:nowarn_function, [generate_key: 2, get_fractional_midpoint!: 3]}]
+  @dialyzer [{:nowarn_function, [generate_key: 2, get_fractional_midpoint!: 3]}]
 
   @moduledoc """
 
@@ -57,11 +57,9 @@ defmodule ZenoIndexingEx do
   """
   @spec generate_key(order_key(), order_key()) :: {:ok, order_key()} | {:error, order_key()}
   def generate_key(a, b) do
-
     with true <- validate_key(a),
          true <- validate_key(b),
          true <- validate_a_b_ordering(a, b) do
-
       key =
         cond do
           is_nil(a) and is_nil(b) ->
@@ -93,8 +91,6 @@ defmodule ZenoIndexingEx do
             {:ok, a_fractional} = get_fractional_component(a, a_integer)
             {:ok, c_integer} = increment_integer(a)
 
-            # const i = incrementInteger(ia, digits);
-            # return i === null ? ia + midpoint(fa, null, digits) : i;
             # If the incremented integer (c_integer) isn't `nil`, which 
             # should be the case until we increment into the largest integer ...
             if c_integer != nil do
@@ -122,17 +118,6 @@ defmodule ZenoIndexingEx do
               end
             end
 
-          # else if (a != null && b != null) {
-          #   const ia = getIntegerPart(a);
-          #   const fa = a.slice(ia.length);
-          #   const ib = getIntegerPart(b);
-          #   const fb = b.slice(ib.length);
-          #   if (ia === ib) {
-          #     return ia + midpoint(fa, fb, digits);
-          #   }
-          #   const i = incrementInteger(ia, digits) as string;
-          #   return i < b ? i : ia + midpoint(fa, null, digits);
-          # }
           true ->
             nil
         end
@@ -143,25 +128,10 @@ defmodule ZenoIndexingEx do
         {:error, :key_gen_failed,
          "Key generation failed for an unknown reason: a = #{a}, b = #{b}"}
       end
-
-      # is_ni 
     else
       error -> error
     end
   end
-
-  # def generate_mid
-
-  # An order key, a string, is composed of two components: 
-  #
-  #     "[integer][fractional]"
-  #
-  # (1) an integer (encoded as a variable length string) and (2) a fractional 
-  # value. Whilst 
-
-  # defp validate_key(@smallest_integer = key) do
-  #   {:error, ~s(Cannot generate a new order key between "#{key}", the smallest key possible.)}
-  # end
 
   defp validate_key(nil), do: true
 
@@ -173,18 +143,6 @@ defmodule ZenoIndexingEx do
     else
       error -> error
     end
-
-    # if (key === SMALLEST_INTEGER) {
-    #   throw new Error("invalid order key: " + key);
-    # }
-    # // getIntegerPart will throw if the first character is bad,
-    # // or the key is too short.  we'd call it to check these things
-    # // even if we didn't need the result
-    # const i = getIntegerPart(key);
-    # const f = key.slice(i.length);
-    # if (f.slice(-1) === "0") {
-    #   throw new Error("invalid order key: " + key);
-    # }
   end
 
   defp is_key_too_small(key) do
@@ -207,14 +165,6 @@ defmodule ZenoIndexingEx do
       {:error, _, _} = error ->
         error
     end
-
-    # function getIntegerPart(key: string) {
-    #   const integerPartLength = getIntegerLength(key.charAt(0));
-    #   if (integerPartLength > key.length) {
-    #     throw new Error("invalid order key: " + key);
-    #   }
-    #   return key.slice(0, integerPartLength);
-    # }
   end
 
   # NOTE the integer component's prefix encodes the length of the 
@@ -298,15 +248,6 @@ defmodule ZenoIndexingEx do
   @spec get_fractional_midpoint!(a :: binary(), b :: binary() | nil, [String.t()]) ::
           c :: String.t()
   defp get_fractional_midpoint!(a, b, digits \\ @base_62_digits) do
-
-    # digits 
-    # if (b !== null && a >= b) {
-    #   throw new Error(a + " >= " + b);
-    # }
-    # if (a.slice(-1) === "0" || (b && b.slice(-1) === "0")) {
-    #   throw new Error("trailing zero");
-    # }
-
     # If a lexicographically follows b, we should raise an error:
     if validate_a_b_ordering(a, b) != true do
       raise "Failed to find midpoint when a >= b, a = #{a}, b = #{b})"
@@ -342,7 +283,6 @@ defmodule ZenoIndexingEx do
           0
         end
 
-
       b_leading_digit_index =
         if is_binary(b) do
           b_leading_digit = String.at(b, 0)
@@ -351,12 +291,11 @@ defmodule ZenoIndexingEx do
           length(digits)
         end
 
-
       leading_digits_consecutive? = b_leading_digit_index - a_leading_digit_index == 1
 
       if leading_digits_consecutive? do
         if b != nil and String.length(b) > 1 do
-          # In this case, a and b are consecutive, but in this case, 
+          # In this case, a and b are consecutive, but
           # b is comprised of 2 or more digits, hence, for c to sort before b,
           # all that's required is is for c to be equal to the first digit of b,
           # e.g. a = "35", b = "41", then c = "4" can satisfy a < b < c:

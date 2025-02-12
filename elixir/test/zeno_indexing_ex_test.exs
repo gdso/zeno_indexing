@@ -4,8 +4,6 @@ defmodule ZenoIndexingExTest do
 
   alias ZenoIndexingEx, as: Z
 
-  # require Logger
-
   test "Exercise generate_key()" do
     test_cases_path = Path.join([__DIR__, ~s(../../test_cases.json)])
     {:ok, test_cases_binary} = File.read(test_cases_path)
@@ -29,22 +27,14 @@ defmodule ZenoIndexingExTest do
       test_cases
       |> Enum.filter(&(&1["result"] != nil and &1["should_error"] != true))
 
-    # |> Enum.take(2)
-
-    dbg(length(positive_test_cases))
 
     for {t, i} <- Enum.with_index(positive_test_cases) do
       %{"result" => expected_result, "should_error" => _should_error, "a" => a, "b" => b} = t
       # if i == 0 do
       if expected_result != nil do
-        # dbg("---- test ##{i}")
-        # dbg(t)
-        # dbg(code)
-        # dbg(reason)
         assert({:ok, result} = Z.generate_key(a, b))
         assert(expected_result == result)
       end
     end
-
   end
 end
